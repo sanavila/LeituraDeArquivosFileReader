@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input multiple type="file" id="file">
+  <script>
+    file.onchange = (event) => {
+       for(const fileData of event.target.files) {
+        console.log(fileData);
+        if(fileData.name)
+          readFile(fileData)
+          .then(data => {
+            console.log({data});
+          })
+          .catch(error => {
+            console.log({error});
+          });
+      }
+    }
+
+    const readFile = file => new Promise((resolve, reject) => {
+      try {
+        const operatorRead = new FileReader();
+        operatorRead.onload = event => {
+          resolve(event.target.result);
+        }
+        operatorRead.readAsText(file);
+      } catch (error) {
+        reject(error);
+      }
+      
+    });
+  </script>
+</body>
+
+</html>
